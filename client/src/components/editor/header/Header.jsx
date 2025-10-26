@@ -54,7 +54,7 @@ const Header = () => {
     },[])
   
   const handleExport = ()=>{
-    if(userDesigns.length>=5&&!userSubscription.isPremium){
+    if(userDesigns.length>=5&&!userSubscription?.isPremium){
         toast.error("Please upgrade to premium", {
           description: "You need to upgrade to premium to create more designs",
         })
@@ -121,7 +121,7 @@ const Header = () => {
                   <button onClick={handlePremium} className='flex items-center bg-white/10 hover:bg-gray-500- 
                   text-white rounded-md h-9 px-3 transition-colors'>
                       <Star className='mr-1 w-4 h-4 text-yellow-400'/>
-                      <span>{!userSubscription.isPremium?'Upgrade to premium':'Premium Member '}</span>
+                      <span>{!userSubscription?.isPremium?'Upgrade to premium':'Premium Member '}</span>
                   </button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild={true}>

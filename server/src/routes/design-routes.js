@@ -9,7 +9,7 @@ designRouter.use(authMiddleware);
 designRouter.get('/',designController.getUserDesigns)
 designRouter.get('/:id',designController.getDesignById)
 designRouter.post('/',designController.saveDesign)
-designRouter.delete('/',designController.deleteDesign);
+designRouter.delete('/:id',designController.deleteDesign);
 
 
 module.exports = designRouter;

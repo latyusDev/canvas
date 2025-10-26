@@ -97,10 +97,11 @@ exports.updateDesign = async(req,res)=>{
 
 exports.deleteDesign = async(req,res)=>{
     const designId = req.params.id
-    const userId = req.params.userId
+    const userId =req.user.userId
+    console.log(designId)
+    console.log(userId)
     try{
-        const design = await Design.findOne({_id:userId,designId:data.designId})
-                                   .sort({updatedAt:-1});
+        const design = await Design.findById(designId)
             if(!design){
                 return  res.status(404).json({
                         success:false,
@@ -108,7 +109,7 @@ exports.deleteDesign = async(req,res)=>{
             });
             }
 
-            await Design.DeleteOne({_id:designId})
+            await Design.findByIdAndDelete(designId)
             res.status(200).json({success:true,message:'Design deleted successfully '})
     }catch(e){
         console.error(e);
