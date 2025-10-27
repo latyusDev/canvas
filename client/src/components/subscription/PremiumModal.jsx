@@ -3,14 +3,25 @@ import React from 'react'
 import { Dialog, DialogContent } from '../ui/dialog'
 import { useEditorStore } from '@/store/useEditorStore'
 import { DialogTitle } from '@radix-ui/react-dialog'
-import { CheckCircle, Clock, Crown, Palette, Sparkles } from 'lucide-react'
+import { CheckCircle, Clock, Crown, Loader2, Palette, Sparkles } from 'lucide-react'
 import { Button } from '../ui/button'
+import { useMutation } from '@tanstack/react-query'
+import { createPaypalOrder } from '@/services/subscription-service'
 
 const PremiumModal = ({isOpen,onClose}) => {
     const {userSubscription} = useEditorStore();
+    const {isPending,mutate} = useMutation({
+        mutationFn:createPaypalOrder,
+        onSuccess:(response)=>{
+            console.log(response,'paypal')
+            if(response.success){
+                window.location.href = response.data.approvalLink
+            }
+        }
+    })
 
     const handleUpgrade = async()=>{
-
+        mutate()
     }
   return (
         <Dialog open={isOpen} onOpenChange={onClose} className={'relative z-50'}>
@@ -89,9 +100,11 @@ const PremiumModal = ({isOpen,onClose}) => {
                                     </div>
                                 </div>
                                 <div className='mt-6 space-y-2 '>
-                                    <Button className={'w-full bg-purple-600 hover:bg-purple-700'} onClick={handleUpgrade}>
-                                        Upgrade
-
+                                    <Button disabled={isPending} className={'w-full bg-purple-600 hover:bg-purple-700'} onClick={handleUpgrade}>
+                                       {isPending?<div className='flex items-center gap-3'>
+                                        <Loader2 className='animate-spin'/>
+                                        <p>processing...</p>
+                                       </div>:'Upgrade'}  
                                     </Button>
                                 </div>
                                 </div>
