@@ -26,7 +26,6 @@ export async function fetchWithAuth(endpoint,options={}){
             data:options?.body,
             params:options?.params
         })
-        // console.log(response,'base-service')
         return response.data;
 
     }catch(e){

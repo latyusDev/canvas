@@ -10,3 +10,12 @@ export async function createPaypalOrder(){
     });
 }
 
+export async function capturePaypalOrder(orderId){
+    return fetchWithAuth('/api/subscription/capture-order',{
+        method:'post',
+        body:{
+            orderId
+        }
+    });
+}
+

@@ -16,7 +16,7 @@ async function getAccessToken(){
         method:'post',
         url:`${PAYPAL_API}/v1/oauth2/token`,
         headers:{
-            'Content-Type':'application/x-www-form-urlencoded',  // <-- Must be x-www-form-urlencoded
+            'Content-Type':'application/x-www-form-urlencoded', 
             Authorization:`Basic ${auth}`,
         },
         data:'grant_type=client_credentials'
@@ -75,17 +75,112 @@ const createOrder = async(req,res)=>{
     }
 }
 
+ 
+// const capturePayment = async(req,res)=>{
+//     try{
+//         const {orderId} = req.body;
+//         const {userId} = req.user;
+//         console.log('hit')
+
+//         const accessToken = await getAccessToken();
+//         const response = await axios({
+//         method:'post',
+//         url:`${PAYPAL_API}/v1/checkout/orders/${orderId}/capture`,
+//         headers:{
+//             'Content-Type':'application/x-www-form-urlencoded', 
+//              Authorization:`Basic ${accessToken}`,
+//         }
+//     })
+
+//     const captureData = response.data;
+//     const captureId = captureData.purchase_units[0].payments.captures[0].id;
+//     let subscription = await Subscription.findOne({userId});
+//     if(!subscription){
+//         subscription = new Subscription({userId});
+//     }
+//     subscription.isPremium = true;
+//     subscription.premiumSince = new Date();
+//     subscription.paymentId = captureId;
+//     await subscription.save();
+//     return res.status(200).json({
+//         success:true,
+//         data:{
+//             isPremium:true,
+//             paymentId:captureId
+//         }
+//     })
+
+//     }catch(e){
+//         res.status(500).json({
+//             success:false,
+//             message:'Error while capturing paypal order'
+//         })
+//         console.log(e)
+//     }
+// }
 
 
-const capturePayment = async(req,res)=>{
-    try{
+const capturePayment = async (req, res) => {
+    try {
+        const { orderId } = req.body;
+        const { userId } = req.user;
+        console.log('Capturing payment for order:', orderId)
 
-    }catch(e){
-        res.status(500).json({
-            success:false,
-            message:'Error while capturing paypal order'
+        const accessToken = await getAccessToken();
+        
+        const response = await axios({
+            method: 'post',
+            url: `${PAYPAL_API}/v2/checkout/orders/${orderId}/capture`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+            }
         })
-        console.log(e)
+
+        const captureData = response.data;
+        console.log('Capture response:', captureData)
+
+        // Check if capture was successful
+        if (captureData.status !== 'COMPLETED') {
+            return res.status(400).json({
+                success: false,
+                message: 'Payment capture failed'
+            })
+        }
+
+        // Correct path to capture ID
+        const captureId = captureData.purchase_units[0].payments.captures[0].id;
+
+        // Find or create subscription
+        let subscription = await Subscription.findOne({ userId });
+        if (!subscription) {
+            subscription = new Subscription({ userId });
+        }
+
+        // Update subscription
+        subscription.isPremium = true;
+        subscription.premiumSince = new Date();
+        subscription.paymentId = captureId;
+        
+        // Save instance, not Model
+        await subscription.save();
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                isPremium: true,
+                paymentId: captureId
+            }
+        })
+
+    } catch (e) {
+        console.error('PayPal capture error:', e.response?.data || e.message)
+        
+        res.status(500).json({
+            success: false,
+            message: 'Error while capturing paypal order',
+            error: e.response?.data?.message || e.message
+        })
     }
 }
 

@@ -13,7 +13,6 @@ const PremiumModal = ({isOpen,onClose}) => {
     const {isPending,mutate} = useMutation({
         mutationFn:createPaypalOrder,
         onSuccess:(response)=>{
-            console.log(response,'paypal')
             if(response.success){
                 window.location.href = response.data.approvalLink
             }
@@ -38,7 +37,7 @@ const PremiumModal = ({isOpen,onClose}) => {
                                 <div className='bg-green-50 border border-green-100 rounded-lg p-4 mb-6'>
                                     <div className='flex items-center'>
                                         <CheckCircle className='h-5 w-5 text-green-500 mr-2'/>
-                                        <p className='text-green-700'>Premium active since {userSubscription?.premiumSince||'recently'}</p>
+                                        <p className='text-green-700'>Premium active since {new Date(userSubscription?.premiumSince).toLocaleDateString() ||'recently'}</p>
                                     </div>
                                 </div>
                                 <p className='text-sm mb-6'>

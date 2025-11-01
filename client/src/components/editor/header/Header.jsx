@@ -65,10 +65,8 @@ const Header = () => {
 
 
   const handlePremium = ()=>{
-    if(userSubscription?.userSubscription){
-      setShowPremiumModal(true)
-
-    }
+    setShowPremiumModal(true)
+  
   }
 
   
