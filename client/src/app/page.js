@@ -2,6 +2,7 @@
 
 import AiFeatures from "@/components/home/AiFeatures";
 import Banner from "@/components/home/Banner";
+import DesignModal from "@/components/home/DesignModal";
 import DesignTypes from "@/components/home/DesignTypes";
 import Header from "@/components/home/Header";
 import RecentDesigns from "@/components/home/RecentDesigns";
@@ -13,7 +14,9 @@ import { useEditorStore } from "@/store/useEditorStore";
 import { useEffect } from "react";
 
 export default function Home() {
-  const {setUserSubscription,setUserDesigns,setShowPremiumModal,showPremiumModal} = useEditorStore();
+  const {setUserSubscription,setUserDesigns,showDesignModal,
+    setShowDesignModal,userDesigns,
+    setShowPremiumModal,showPremiumModal} = useEditorStore();
   console.log(showPremiumModal)
   const fetchUserSubscription = async()=>{
     const response = await getUserSubscription();
@@ -25,7 +28,6 @@ export default function Home() {
   const fetchUserDesigns = async()=>{
       const results = await getUserDesigns();
       setUserDesigns(results?.data)
-      console.log(results,'result')
   }
   useEffect(()=>{
     fetchUserSubscription()
@@ -44,6 +46,9 @@ export default function Home() {
                   </div>
               </main>
               <PremiumModal onClose={setShowPremiumModal} isOpen={showPremiumModal} />
+              <DesignModal
+              userDesigns={userDesigns} setShowDesignModal={setShowDesignModal}
+              onClose={setShowDesignModal} isOpen={showDesignModal} />
 
     </div>
   );

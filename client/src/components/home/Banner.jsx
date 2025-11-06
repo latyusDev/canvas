@@ -58,7 +58,7 @@ const Banner = () => {
             <Crown className='h-8 w-8 sm:w-10 md:h-12 md:w-12 text-yellow-300 '/>
             <span className='sm:ml-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-tight'>Create Innovative Designs</span>
         </div>
-        <h2 className='text-sm sm:text-base md:text-lg font-bold mb-4 max-w-2xl mx-auto'>Design eye-catching thumbnails that get more viewa</h2>
+        <h2 className='text-sm sm:text-base md:text-lg font-bold mb-4 max-w-2xl mx-auto'>Design eye-catching thumbnails that get more viewers</h2>
         <div onClick={handleCreateNewDesign} 
         className="text-[#8b3dff] flex gap-2 items-center w-[max-content] mx-auto bg-white hover:bg-gray-100 rounded-lg cursor-pointer px-4
          py-2 sm:px-6 sm:py-2.5"><span>Start Designing</span> {loading&&<Loader className='w-4 h-4'/>}  </div>

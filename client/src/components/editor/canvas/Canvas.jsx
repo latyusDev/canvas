@@ -85,73 +85,14 @@ const Canvas = () => {
       console.log('work')
     },50)
 
-      // initCanvas()//second
 
     return ()=>{
        clearInterval(timer)
       initCanvas()//second
-
     }
 
   },[])
 
-//   useEffect(() => {
-//   let isMounted = true;
-  
-//   const initCanvas = async () => {
-//     // Check if already attempted or conditions not met
-//     if (typeof window === 'undefined' || !canvasRef.current || initAttemptedRef.current) {
-//       return;
-//     }
-
-//     initAttemptedRef.current = true;
-
-//     try {
-//       const fabricCanvas = await initializeFabric(canvasRef.current, canvasContainerRef);
-      
-//       console.log(fabricCanvas, 'fabricCanvas');
-
-//       if (!fabricCanvas) {
-//         console.error('Failed to initialize Fabric.js canvas');
-//         initAttemptedRef.current = false; // Reset on failure
-//         return;
-//       }
-
-//       // Only set if component is still mounted
-//       if (isMounted) {
-//         fabricCanvasRef.current = fabricCanvas;
-//         setCanvas(fabricCanvas);
-//         console.log('Canvas init is done and set in store');
-//       }
-
-
-
-//     } catch (e) {
-//       console.error('Failed to init canvas: ' + e);
-//       initAttemptedRef.current = false; // Reset on error
-//     }
-//   };
-
-//   initCanvas();
-
-//   // Cleanup function
-//   return () => {
-//     isMounted = false;
-//     initAttemptedRef.current = false;
-
-//     if (fabricCanvasRef.current) {
-//       try {
-//         fabricCanvasRef.current.dispose();
-//         console.log('Canvas disposed successfully');
-//       } catch (e) {
-//         console.error('Error disposing the canvas: ' + e);
-//       }
-//       fabricCanvasRef.current = null;
-//     }
-    
-//     setCanvas(null);
-//   };
-// }, []); // Empty dependency array - runs once on mount
 
   return (
     <div className='relative w-full h-[600px] overflow-auto' ref={canvasContainerRef}>

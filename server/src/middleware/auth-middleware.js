@@ -3,7 +3,6 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const authMiddleware = async(req,res,next)=>{
-    // const authHeader = req.headers['Authorization'];
     const authHeader = req.headers.authorization;
     console.log(authHeader,'header')
 
@@ -20,7 +19,6 @@ const authMiddleware = async(req,res,next)=>{
             audience:process.env.GOOGLE_CLIENT_ID
         })
         const payload = ticket.getPayload();
-
         // add user info to req.user;
         req.user = {
             userId:payload['sub'],
@@ -38,6 +36,7 @@ const authMiddleware = async(req,res,next)=>{
         next();
     }catch(err){
         console.error('token verification failed '+err)
+        return res.status(403).json({message:'session expired'})
     }
 }
 

@@ -64,10 +64,11 @@ export const useEditorStore = create((set,get)=>({
     },
     debounceSaveToServer: debounce(()=>{
         get().saveToServer();
-
     },500),
     userSubscription:null,
     setUserSubscription:(userSubscription)=>set({userSubscription}),
+    showDesignModal:false,
+    setShowDesignModal:(showDesignModal)=>set({showDesignModal}),
     showPremiumModal:false,
     setShowPremiumModal:(showPremiumModal)=>set({showPremiumModal}),
     userDesigns:[],

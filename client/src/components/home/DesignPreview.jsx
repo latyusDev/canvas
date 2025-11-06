@@ -1,22 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 const DesignPreview = ({design}) => {
-
     const [canvasId] = useState(`canvas-${design._id}-${Date.now()}`)
     const fabricCanvasRef = useRef(null);
     useEffect(()=>{
         if(!design.canvasData) return ;
-
         const timer = setTimeout(async()=>{
             try{
                 if(fabricCanvasRef.current&&typeof fabricCanvasRef.current.dispose === 'function'){
                     try{
                           fabricCanvasRef.current.dispose()
                           fabricCanvasRef.current = null
-
                     }catch(e){
                         console.error('Error while disposing the canvas');
-                        
                     }
                 }
                 const fabric = await import('fabric');
@@ -36,6 +32,11 @@ const DesignPreview = ({design}) => {
                     canvasData = typeof design.canvasData === 'string'?JSON.parse(design.canvasData):design.canvasData
                 }catch(e){
                     console.error('error parsing canvas data '+e);
+                }
+                if(canvasData === undefined ||canvasData === null ||canvasData?.objects?.length === 0){
+                     designPreviewCanvas.backgroundColor = `#21f365`;
+                    designPreviewCanvas.requestRenderAll()
+                    return;
                 }
                 if(canvasData.background){
                     designPreviewCanvas.backgroundColor = canvasData.background;

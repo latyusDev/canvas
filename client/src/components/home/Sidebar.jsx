@@ -1,17 +1,15 @@
 'use client';
 
-
 import { saveDesign } from '@/services/design-service'
 import { useEditorStore } from '@/store/useEditorStore';
 import { CreditCard, FolderOpen, Home, Plus } from 'lucide-react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const Sidebar = () => {
       const [loading,setLoading] = useState(false);
       const router = useRouter();
-      const {setShowPremiumModal,showPremiumModal} = useEditorStore();
+      const {setShowPremiumModal,setShowDesignModal} = useEditorStore();
 
 
       const handleCreateNewDesign = async()=>{
@@ -43,7 +41,8 @@ const Sidebar = () => {
       const handleBilling = (value)=>{
         if(value === 'Billing'){
             setShowPremiumModal(true)
-            console.log(value)
+        }else if(value === 'Projects'){
+            setShowDesignModal(true)
         }
       }
   return (

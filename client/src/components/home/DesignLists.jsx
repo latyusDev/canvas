@@ -4,10 +4,12 @@ import DesignPreview from './DesignPreview'
 import Link from 'next/link'
 import { Trash2 } from 'lucide-react'
 import { deleteDesign } from '@/services/design-service'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
-const DesignLists = ({userDesigns}) => {
+const DesignLists = ({userDesigns,setDesignShowModal}) => {
+
+ 
     const queryClient = useQueryClient()
     const { mutate } = useMutation({
     mutationFn: async (id) => await deleteDesign(id), 
@@ -38,18 +40,23 @@ const DesignLists = ({userDesigns}) => {
 
   onSettled: () => {
     queryClient.invalidateQueries({ queryKey: ['designs'] })
-  },
+  }
 })
 
     const handleDeleteDesign = async(id)=>{
         mutate(id)
     }
+    const handleDesignModal = ()=>{
+      if(setDesignShowModal){
+        setDesignShowModal(false)
+      }
+    }
   return (
-     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+     <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 ">
             {
                 userDesigns.map(design=>{
                     return (
-                       <div  key={design._id}  className='group cursor-pointer'>
+                       <div  key={design._id} onClick={handleDesignModal}  className='group cursor-pointer overflow-hidden'>
                         <Link href={`/editor/${design._id}`}>
                              <div key={design._id} >
                            <div className='w-[300px] h-[300px] rounded-lg overflow-hidden mb-2  transition-shadow group-hover:shadow-md'>

@@ -7,6 +7,7 @@ import { useEditorStore } from '@/store/useEditorStore'
 import { getUserDesignById } from '@/services/design-service'
 import Properties from './properties/Properties'
 import PremiumModal from '../subscription/PremiumModal'
+import DesignLoaders from '../DesignLoaders'
 
 const MainEditor = () => {
 
@@ -16,6 +17,7 @@ const MainEditor = () => {
   const [isLoading,setIsLoading] = useState(!!designId);
   const [loadAttempted,setLoadAttempted] = useState(false);
   const [error,setError] = useState(null);
+  const [isCanvasLoading,setIsCanvasLoading] = useState(true)
   const {canvas,setDesignId,resetStore,isEditing,setName,showPremiumModal,setShowPremiumModal,
     setShowProperties,showProperties} = useEditorStore()
 
@@ -75,6 +77,7 @@ const MainEditor = () => {
     // Fetch design data
     const response = await getUserDesignById(designId);
     const design = response?.data;
+    
     
     if (design) {
       
@@ -139,9 +142,6 @@ const MainEditor = () => {
   } catch (error) {
     console.error('Failed to load design:', error);
     setError('Failed to load design. Please try again.');
-    
-    // Optionally reset loadAttempted to allow retry
-    // setLoadAttempted(false);
   } finally {
     setIsLoading(false);
   }
@@ -181,22 +181,35 @@ useEffect(() => {
           canvas.off('selection:cleared',handleSelectionCleared)
       }
   },[canvas])
+
+  if(error){
+    return <div>
+      <Header/>
+      <h1 className='text-center  text-xl py-20 shadow-md rounded-lg m-5'>
+                Your session has expired,kindly login again
+              </h1>
+    </div>
+  }
    return (
     <div className='flex flex-col h-screen overflow-hidden'>
       <Header/>
+     
       <div className='flex flex-1 overflow-hidden'>
-      {
-        isEditing&&<Sidebar/>
-      }
-        <div className='flex-1 flex flex-col overflow-hidden relative'>
-          <main className='flex-1 overflow-hidden bg-[#f0f0f0] flex items-center justify-center'>
-            <Canvas/>
-          </main>
-        </div>
           {
-              showProperties&&isEditing&&<Properties/>
+            isEditing&&<Sidebar/>
           }
-          <PremiumModal isOpen={showPremiumModal} onClose={setShowPremiumModal} />
+            <div className='flex-1 flex flex-col overflow-hidden relative'>
+              <main className='flex-1 overflow-hidden bg-[#f0f0f0] flex items-center justify-center'>
+          {
+            isLoading&& <DesignLoaders/>
+          }
+                <Canvas/>
+              </main>
+            </div>
+              {
+                  showProperties&&isEditing&&<Properties/>
+              }
+              <PremiumModal isOpen={showPremiumModal} onClose={setShowPremiumModal} />
 
       </div>
     </div>

@@ -8,6 +8,8 @@ import ExportModal from '../export/ExportModal'
 import { toast } from 'sonner'
 import { getUserSubscription } from '@/services/subscription-service'
 import { getUserDesigns } from '@/services/design-service'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const Header = () => {
 
@@ -73,6 +75,11 @@ const Header = () => {
   return (
     <header className='flex bg-blue-600 items-center justify-between px-4 h-14'>
         <div className='flex items-center space-x-2  justify-between'>
+          <Link href={'/'}>
+           <Image src='https://static.canva.com/web/images/856bac30504ecac8dbd38dbee61de1f1.svg' alt='canva'
+                   width={70} height={30}
+                   priority
+                  /></Link>
           <div className="ml-6">
              <DropdownMenu >
               <DropdownMenuTrigger asChild="true">

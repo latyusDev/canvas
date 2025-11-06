@@ -7,54 +7,72 @@ const designTypes = [
         icon:<Youtube className="h-6 w-6 text-white"/>,
         label:'Youtube Thumbnail',
         bgColor:'bg-purple-500',
+        width:900,
+        height:500
     },
     {
         id:2,
         icon:<Type className="h-6 w-6 text-white"/>,
         label:'Typography',
         bgColor:'bg-blue-500',
+        width:200,
+        height:200
     },
     {
         id:3,
         icon:<Palette className="h-6 w-6 text-white"/>,
         label:'Color  Palette',
         bgColor:'bg-green-500',
+        width:200,
+        height:200
     },
     {
         id:4,
         icon:<Sticker className="h-6 w-6 text-white"/>,
         label:'Stickers',
         bgColor:'bg-pink-500',
+        width:250,
+        height:250
     },
     {
         id:5,
         icon:<Image className="h-6 w-6 text-white"/>,
         label:'Images',
         bgColor:'bg-red-500',
+        width:500,
+        height:500
     },
     {
         id:6,
         icon:<Printer className="h-6 w-6 text-white"/>,
         label:'Print',
         bgColor:'bg-orange-500',
+        width:900,
+        height:500
     },
     {
         id:7,
         icon:<Sparkles className="h-6 w-6 text-white"/>,
         label:'AI backround',
         bgColor:'bg-blue-500',
+        width:700,
+        height:500
     },
     {
         id:8,
         icon:<Wand2 className="h-6 w-6 text-white"/>,
         label:'AI image con',
         bgColor:'bg-purple-500',
+        width:400,
+        height:600
     },
     {
         id:9,
         icon:<Upload className="h-6 w-6 text-gray-500"/>,
         label:'Typography',
-        bgColor:'bg-white',
+        width:200,
+        height:300,
+        bgColor:'bg-white'
     }
 ]
 
