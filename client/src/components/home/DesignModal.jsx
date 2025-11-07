@@ -21,7 +21,7 @@ const DesignModal = ({isOpen,onClose,userDesigns,setDesignShowModal}) => {
 
   return (
     
-          <Dialog open={isOpen} onOpenChange={onClose} className={'relative z-50  '}>
+          <Dialog open={isOpen} onOpenChange={onClose} className={'relative z-50'}>
                   <DialogContent className={'sm:max-w-[1200px] p-5 gap-0 h-[550px] overflow-y-auto'}>
                     {
                      isLoading?<DesignLoaders/>:

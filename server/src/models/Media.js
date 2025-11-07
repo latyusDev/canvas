@@ -15,6 +15,6 @@ const MediaSchema = new mongoose.Schema({
     }
 })
 
-const Media = mongoose.model.Medial ||mongoose.model('Media',MediaSchema)
+const Media = mongoose.model.Media ||mongoose.model('Media',MediaSchema)
 
 module.exports = Media;

@@ -35,7 +35,7 @@ const uploadMedia = async(req,res)=>{
         })
      }catch(e){
         console.error(e)
-         res.status(201).json({
+         res.status(422).json({
             success:false,
             message:'Error creating asset'
         })
@@ -43,11 +43,13 @@ const uploadMedia = async(req,res)=>{
 }
 
 const getAllMediaByUser = async(req,res)=>{
+    console.log(typeof req.user.userId)
     try{
-        const medias = await Media.find({
-            userId:req.user.userId
-        }).sort({createdAt:-1})
-
+        // const medias = await Media.find({
+        //     userId:req.user.userId
+        // }).sort({createdAt:-1})
+        const medias = await Media.find({})
+        console.log(medias)
         return res.status(200).json({
             success:false,
             data:medias
