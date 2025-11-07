@@ -1,15 +1,11 @@
 const Design = require('../models/Design');
 
 
-exports.getUserDesigns = async(req,res)=>{
+const getUserDesigns = async(req,res)=>{
     const {userId} = req.user 
-    console.log(req.user)
     try{
-
         const designs = await Design.find()
                                     .sort({updatedAt:-1}) 
-        console.log(designs)
-
         return res.status(200).json({
             success:true,
             data:designs
@@ -20,7 +16,7 @@ exports.getUserDesigns = async(req,res)=>{
         return res.status(500).json({success:false,message:'Failed to fetch design '+' user id '+userId+e})
     }
 }
-exports.getDesignById= async(req,res)=>{
+const getDesignById= async(req,res)=>{
     const {userId} = req.params 
     const designId = req.params.id
     try{
@@ -44,7 +40,7 @@ exports.getDesignById= async(req,res)=>{
     }
 }
 
-exports.saveDesign = async(req,res)=>{
+const saveDesign = async(req,res)=>{
     const {userId} = req.params;
     const {designId,name,canvasData,width,height,category} = req.body
 
@@ -86,7 +82,7 @@ exports.saveDesign = async(req,res)=>{
     }
 }
 
-exports.updateDesign = async(req,res)=>{
+const updateDesign = async(req,res)=>{
     try{
 
     }catch(e){
@@ -95,11 +91,9 @@ exports.updateDesign = async(req,res)=>{
     }
 }
 
-exports.deleteDesign = async(req,res)=>{
+const deleteDesign = async(req,res)=>{
     const designId = req.params.id
     const userId =req.user.userId
-    console.log(designId)
-    console.log(userId)
     try{
         const design = await Design.findById(designId)
             if(!design){
@@ -116,3 +110,37 @@ exports.deleteDesign = async(req,res)=>{
         return res.status(500).json({success:false,message:'Failed to fetch designs'})
     }
 }
+
+
+const searchDesign = async(req, res) => {
+    try {
+        const searchTerm = req.query.name;
+        console.log(searchTerm)
+        
+        if (!searchTerm) {
+            return res.status(400).json({
+                success: false, 
+                message: 'Search term is required'
+            });
+        }
+
+        const results = await Design.find({
+            name: { $regex: searchTerm, $options: 'i' }
+        });
+
+        return res.status(200).json({
+            success: true,
+            data: results,
+            total: results.length
+        });
+
+    } catch(e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false, 
+            message: 'Failed to search designs'
+        });
+    }
+}
+module.exports = {deleteDesign,updateDesign,saveDesign,
+    getDesignById,getUserDesigns,searchDesign}

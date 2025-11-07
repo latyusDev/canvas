@@ -8,7 +8,7 @@ import Header from "@/components/home/Header";
 import RecentDesigns from "@/components/home/RecentDesigns";
 import Sidebar from "@/components/home/Sidebar";
 import PremiumModal from "@/components/subscription/PremiumModal";
-import { getUserDesigns } from "@/services/design-service";
+import { getUserDesigns, searchDesigns } from "@/services/design-service";
 import { getUserSubscription } from "@/services/subscription-service";
 import { useEditorStore } from "@/store/useEditorStore";
 import { useEffect } from "react";
@@ -29,7 +29,13 @@ export default function Home() {
       const results = await getUserDesigns();
       setUserDesigns(results?.data)
   }
+  
+  const search = async()=>{
+    const result = await searchDesigns('lat');
+    console.log(result,'search')
+  }
   useEffect(()=>{
+    search()
     fetchUserSubscription()
     fetchUserDesigns()
   },[])

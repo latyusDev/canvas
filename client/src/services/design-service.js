@@ -19,6 +19,15 @@ export async function saveDesign(designData,designId=null){
     });
 }
 
+export async function searchDesigns(name){
+    return fetchWithAuth(`/api/designs/search`,{
+        method:'GET',
+        params:{
+           name 
+        }
+    });
+}
+
 
 export async function deleteDesign(designId){
     return fetchWithAuth(`/api/designs/${designId}`,{
